@@ -520,18 +520,10 @@
 	"buffers":
 	[
 		{
-			"file": "Gemfile",
+			"file": "app/assets/javascripts/application.js",
 			"settings":
 			{
-				"buffer_size": 1301,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config/database.yml",
-			"settings":
-			{
-				"buffer_size": 2957,
+				"buffer_size": 648,
 				"line_ending": "Unix"
 			}
 		}
@@ -646,10 +638,20 @@
 	[
 		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone",
 		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/assets",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/assets/javascripts",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/controllers",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/views",
 		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/config"
 	],
 	"file_history":
 	[
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/Gemfile",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/views/home/index.html.erb",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/controllers/home_controller.rb",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/config/routes.rb",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/Gemfile.lock",
+		"/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/config/database.yml",
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/rendal/config/routes.rb",
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/rendal/app/controllers/systems_controller.rb",
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/rendal/spec/controllers/systems_controller_spec.rb",
@@ -771,17 +773,11 @@
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/config/application.rb",
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/balance_wastes_generated_controller.rb",
 		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/destination_coordinate_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/general_info_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/movimentation_balance_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/qtde_wastes_generated_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/wastes_gen_internal_movement_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/wastes_generated_entity_authority_controller.rb",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/views/waste_movements/index.html.haml",
-		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/views/waste_generations/show.html.haml"
+		"/home/ffscalco/Documentos/Dev/Rails/sislam/residuos/app/controllers/reports/general_info_controller.rb"
 	],
 	"find":
 	{
-		"height": 29.0
+		"height": 70.0
 	},
 	"find_in_files":
 	{
@@ -873,6 +869,7 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"react",
 			"be_empty",
 			"def create_label_status",
 			"number_with_comma",
@@ -999,8 +996,7 @@
 			"NAME",
 			"general_waste_id",
 			"start_date",
-			"def set_actived_menu",
-			"mtr_configs"
+			"def set_actived_menu"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -1025,24 +1021,24 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
 					"buffer": 0,
-					"file": "Gemfile",
+					"file": "app/assets/javascripts/application.js",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 1301,
+						"buffer_size": 648,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								320,
-								320
+								560,
+								560
 							]
 						],
 						"settings":
@@ -1050,43 +1046,11 @@
 							"auto_complete": false,
 							"encoding_helper_encoding": "UTF-8",
 							"encoding_thread_running": true,
-							"git_savvy.file_path": "/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/Gemfile",
-							"syntax": "Packages/Ruby/Ruby.tmLanguage"
+							"git_savvy.file_path": "/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/app/assets/javascripts/application.js",
+							"git_savvy.repo_path": "/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone",
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
 						},
-						"translation.x": -0.0,
-						"translation.y": 57.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "config/database.yml",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 2957,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								670,
-								670
-							]
-						],
-						"settings":
-						{
-							"encoding_helper_encoding": "UTF-8",
-							"encoding_thread_running": true,
-							"git_savvy.file_path": "/home/ffscalco/Documentos/Dev/Rails/testes/reactjs/twitter-clone/config/database.yml",
-							"syntax": "Packages/YAML/YAML.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": -0.0,
+						"translation.x": 0.0,
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
@@ -1603,7 +1567,7 @@
 		[
 			[
 				"",
-				"~/Documentos/Dev/Rails/desafios/is/proficiency-ffscalco/is-test.sublime-project"
+				"~/Documentos/Dev/Rails/testes/reactjs/accounts/accounts_reactjs.sublime-project"
 			],
 			[
 				"sis",

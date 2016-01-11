@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: postgres
+  host: localhost
+
+development:
+  <<: *default
+  database: twitter-clone_development
+
+production:
+  <<: *default
+  database: twitter-clone_production
+
+test: &test
+  <<: *default
+  database: twitter-clone_test
+  min_messages: WARNING

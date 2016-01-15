@@ -399,6 +399,14 @@
 	    }).error(function (error) {
 	      return console.log(error);
 	    });
+	  },
+	  getAllUsers: function getAllUsers() {
+	    // console.log(2, "API.getAllTweets")
+	    $.get("/followers/random").success(function (rawUsers) {
+	      return _actionsServerActions2["default"].receivedUsers(rawUsers);
+	    }).error(function (error) {
+	      return console.log(error);
+	    });
 	  }
 	};
 	module.exports = exports["default"];
@@ -439,6 +447,14 @@
 	    _dispatcher2["default"].dispatch({
 	      actionType: _constants2["default"].RECEIVED_ONE_TWEET,
 	      rawTweet: rawTweet
+	    });
+	  },
+	
+	  receivedUsers: function receivedUsers(rawUsers) {
+	    // console.log(3, "ServerActions.receivedTweets")
+	    _dispatcher2["default"].dispatch({
+	      actionType: _constants2["default"].RECEIVED_USERS,
+	      rawUsers: rawUsers
 	    });
 	  }
 	};
@@ -820,7 +836,8 @@
 	});
 	exports['default'] = {
 	  RECEIVED_TWEETS: 'RECEIVED_TWEETS',
-	  RECEIVED_ONE_TWEET: 'RECEIVED_ONE_TWEET'
+	  RECEIVED_ONE_TWEET: 'RECEIVED_ONE_TWEET',
+	  RECEIVED_USERS: 'RECEIVED_USERS'
 	};
 	module.exports = exports['default'];
 
@@ -855,13 +872,14 @@
 	
 	var _constants2 = _interopRequireDefault(_constants);
 	
-	var _events = __webpack_require__(/*! events */ 13);
+	var _AppEventEmitter2 = __webpack_require__(/*! ./AppEventEmitter */ 236);
+	
+	var _AppEventEmitter3 = _interopRequireDefault(_AppEventEmitter2);
 	
 	var _tweets = [];
-	var CHANGE_EVENT = "CHANGE";
 	
-	var TweetEventEmitter = (function (_EventEmitter) {
-	  _inherits(TweetEventEmitter, _EventEmitter);
+	var TweetEventEmitter = (function (_AppEventEmitter) {
+	  _inherits(TweetEventEmitter, _AppEventEmitter);
 	
 	  function TweetEventEmitter() {
 	    _classCallCheck(this, TweetEventEmitter);
@@ -877,25 +895,10 @@
 	        return tweet;
 	      });
 	    }
-	  }, {
-	    key: "emitChange",
-	    value: function emitChange() {
-	      this.emit(CHANGE_EVENT);
-	    }
-	  }, {
-	    key: "addChangeListener",
-	    value: function addChangeListener(callback) {
-	      this.on(CHANGE_EVENT, callback);
-	    }
-	  }, {
-	    key: "removeChangeListener",
-	    value: function removeChangeListener(callback) {
-	      this.removeListener(CHANGE_EVENT, callback);
-	    }
 	  }]);
 	
 	  return TweetEventEmitter;
-	})(_events.EventEmitter);
+	})(_AppEventEmitter3["default"]);
 	
 	var TweetStore = new TweetEventEmitter();
 	
@@ -25875,18 +25878,63 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _storesUserStore = __webpack_require__(/*! ../stores/UserStore */ 237);
+	
+	var _storesUserStore2 = _interopRequireDefault(_storesUserStore);
+	
+	var _actionsUserActions = __webpack_require__(/*! ../actions/UserActions */ 238);
+	
+	var _actionsUserActions2 = _interopRequireDefault(_actionsUserActions);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 173);
+	
+	var getAppState = function getAppState() {
+	  return { users: _storesUserStore2['default'].getAll() };
+	};
+	
 	var Follow = (function (_React$Component) {
 	  _inherits(Follow, _React$Component);
 	
-	  function Follow() {
+	  function Follow(props) {
 	    _classCallCheck(this, Follow);
 	
-	    _get(Object.getPrototypeOf(Follow.prototype), 'constructor', this).apply(this, arguments);
+	    _get(Object.getPrototypeOf(Follow.prototype), 'constructor', this).call(this, props);
+	    this.state = getAppState();
+	    this._onChange = this._onChange.bind(this);
 	  }
 	
 	  _createClass(Follow, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _actionsUserActions2['default'].getAllUsers();
+	      _storesUserStore2['default'].addChangeListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _storesUserStore2['default'].removeChangeListener(this._onChange);
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      // console.log(5, "Main._onChange");
+	      this.setState(getAppState());
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var users = this.state.users.map(function (user) {
+	        return _react2['default'].createElement(
+	          'li',
+	          { key: user.id, className: 'collection-item avatar' },
+	          _react2['default'].createElement('img', { src: user.gravatar, className: 'circle' }),
+	          _react2['default'].createElement(
+	            'span',
+	            { className: 'title' },
+	            user.name
+	          )
+	        );
+	      });
 	      return _react2['default'].createElement(
 	        'div',
 	        null,
@@ -25894,6 +25942,16 @@
 	          'h3',
 	          null,
 	          'Who to follow'
+	        ),
+	        _react2['default'].createElement(
+	          'ul',
+	          { className: 'collection' },
+	          users
+	        ),
+	        _react2['default'].createElement(
+	          _reactRouter.Link,
+	          { to: '/' },
+	          'Back'
 	        )
 	      );
 	    }
@@ -25904,6 +25962,163 @@
 	
 	exports['default'] = Follow;
 	module.exports = exports['default'];
+
+/***/ },
+/* 236 */
+/*!********************************************************!*\
+  !*** ./app/assets/frontend/stores/AppEventEmitter.jsx ***!
+  \********************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _events = __webpack_require__(/*! events */ 13);
+	
+	var CHANGE_EVENT = "CHANGE";
+	
+	var AppEventEmitter = (function (_EventEmitter) {
+	  _inherits(AppEventEmitter, _EventEmitter);
+	
+	  function AppEventEmitter() {
+	    _classCallCheck(this, AppEventEmitter);
+	
+	    _get(Object.getPrototypeOf(AppEventEmitter.prototype), "constructor", this).apply(this, arguments);
+	  }
+	
+	  _createClass(AppEventEmitter, [{
+	    key: "emitChange",
+	    value: function emitChange() {
+	      this.emit(CHANGE_EVENT);
+	    }
+	  }, {
+	    key: "addChangeListener",
+	    value: function addChangeListener(callback) {
+	      this.on(CHANGE_EVENT, callback);
+	    }
+	  }, {
+	    key: "removeChangeListener",
+	    value: function removeChangeListener(callback) {
+	      this.removeListener(CHANGE_EVENT, callback);
+	    }
+	  }]);
+	
+	  return AppEventEmitter;
+	})(_events.EventEmitter);
+	
+	exports["default"] = AppEventEmitter;
+	module.exports = exports["default"];
+
+/***/ },
+/* 237 */
+/*!**************************************************!*\
+  !*** ./app/assets/frontend/stores/UserStore.jsx ***!
+  \**************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; desc = parent = undefined; continue _function; } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var _dispatcher = __webpack_require__(/*! ../dispatcher */ 7);
+	
+	var _dispatcher2 = _interopRequireDefault(_dispatcher);
+	
+	var _constants = __webpack_require__(/*! ../constants */ 11);
+	
+	var _constants2 = _interopRequireDefault(_constants);
+	
+	var _AppEventEmitter2 = __webpack_require__(/*! ./AppEventEmitter */ 236);
+	
+	var _AppEventEmitter3 = _interopRequireDefault(_AppEventEmitter2);
+	
+	var _users = [];
+	
+	var UserEventEmitter = (function (_AppEventEmitter) {
+	  _inherits(UserEventEmitter, _AppEventEmitter);
+	
+	  function UserEventEmitter() {
+	    _classCallCheck(this, UserEventEmitter);
+	
+	    _get(Object.getPrototypeOf(UserEventEmitter.prototype), "constructor", this).apply(this, arguments);
+	  }
+	
+	  _createClass(UserEventEmitter, [{
+	    key: "getAll",
+	    value: function getAll() {
+	      return _users;
+	    }
+	  }]);
+	
+	  return UserEventEmitter;
+	})(_AppEventEmitter3["default"]);
+	
+	var UserStore = new UserEventEmitter();
+	
+	_dispatcher2["default"].register(function (action) {
+	  switch (action.actionType) {
+	    case _constants2["default"].RECEIVED_USERS:
+	      _users = action.rawUsers;
+	      UserStore.emitChange();
+	
+	      break;
+	    default:
+	    //
+	  }
+	});
+	
+	exports["default"] = UserStore;
+	module.exports = exports["default"];
+
+/***/ },
+/* 238 */
+/*!*****************************************************!*\
+  !*** ./app/assets/frontend/actions/UserActions.jsx ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+	
+	var _API = __webpack_require__(/*! ../API */ 5);
+	
+	var _API2 = _interopRequireDefault(_API);
+	
+	exports["default"] = {
+	  getAllUsers: function getAllUsers() {
+	    // console.log(1, "TweetActions")
+	    _API2["default"].getAllUsers();
+	  }
+	};
+	module.exports = exports["default"];
 
 /***/ }
 /******/ ]);

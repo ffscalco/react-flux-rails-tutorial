@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
   def random
-    render json: User.where.not(id: current_user.id).order("random()")
+    render json: User.who_to_follow(current_user.id)
   end
 
   def create

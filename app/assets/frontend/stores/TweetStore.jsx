@@ -17,12 +17,12 @@ class TweetEventEmitter extends EventEmitter {
     this.emit(CHANGE_EVENT);
   }
 
-  addChangeListner(callback) {
+  addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback);
   }
 
-  removeChangeListner(callback) {
-    this.removeListner(CHANGE_EVENT, callback);
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback);
   }
 }
 

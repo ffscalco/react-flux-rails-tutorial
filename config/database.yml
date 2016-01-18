@@ -9,10 +9,6 @@ development:
   <<: *default
   database: twitter-clone_development
 
-production:
-  <<: *default
-  database: twitter-clone_production
-
 test: &test
   <<: *default
   database: twitter-clone_test

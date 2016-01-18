@@ -2,6 +2,8 @@
 
 This project is a [Rails](http://rubyonrails.org/) application with React + Flux following this [tutorial](https://app.pluralsight.com/library/courses/reactjs-on-rails-building-full-stack-web-app)
 
+[twitter-clone-react.herokuapp.com](https://twitter-clone-react.herokuapp.com)
+
 ## Dependencies
 
 To run this project you need to have:

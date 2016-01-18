@@ -9,7 +9,15 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.jsx$/, loader: "babel-loader" }
+            {
+                test: /\.jsx$/,
+                exclude: /node_modules/,
+                loader: "babel-loader",
+                 query: {
+                    cacheDirectory: true,
+                    presets: ['es2015', 'react']
+                }
+            }
         ]
     }
 };
